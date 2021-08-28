@@ -1,14 +1,14 @@
 /*
-* Title: Not found handler
-* Description: 404 not found handler
-*/
+ * Title: Not found handler
+ * Description: 404 not found handler
+ */
 
 const handler = {};
 
 handler.notFoundHandler = (requestProperties, callback) => {
     callback(404, {
-        error: 'Not found'
-    })
+        error: 'Not found',
+    });
 };
 
 module.exports = handler;
