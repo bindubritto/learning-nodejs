@@ -4,6 +4,7 @@ const url = require('url');
 const { StringDecoder } = require('string_decoder');
 const routes = require('../routes');
 const { notFoundHandler } = require('../handlers/routeHandlers/notFoundHandler');
+const { parseJSON } = require('./utilities');
 
 // module scaffolding
 const handler = {};
@@ -27,18 +28,20 @@ handler.handleReqRes = (req, res) => {
         headersObject,
     };
 
+    const chosenHandler = routes[trimmedPath] ? routes[trimmedPath] : notFoundHandler;
+
+    // If request send some data in it's body field, we need to parse the data using data event.
     const decoder = new StringDecoder('utf-8');
     let realData = '';
-
-    const chosenHandler = routes[trimmedPath] ? routes[trimmedPath] : notFoundHandler;
-    console.log('chosen handler', routes[trimmedPath]);
-
     req.on('data', (buffer) => {
         realData += decoder.write(buffer);
     });
 
     req.on('end', () => {
         realData += decoder.end();
+
+        // set that data to request body object
+        requestProperties.body = parseJSON(realData);
 
         chosenHandler(requestProperties, (statusCode, payload) => {
             statusCode = typeof statusCode === 'number' ? statusCode : 500;
@@ -47,6 +50,7 @@ handler.handleReqRes = (req, res) => {
             const payloadString = JSON.stringify(payload);
 
             // return the final response
+            res.setHeader('Content-Type', 'application/json');
             res.writeHead(statusCode);
             res.end(payloadString);
         });

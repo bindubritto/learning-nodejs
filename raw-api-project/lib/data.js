@@ -74,7 +74,7 @@ lib.update = (dir, file, data, callback) => {
                 }
             });
         } else {
-            console.log('Error updating. File may not exist');
+            callback('Eroor in updating file. File may not exist');
         }
     });
 };

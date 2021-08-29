@@ -7,23 +7,6 @@
 const http = require('http');
 const { handleReqRes } = require('./helpers/handleReqRes');
 const environment = require('./helpers/environments');
-// const data = require('./lib/data');
-
-// data.create('test', 'test', 'Bangladesh', (err) => {
-//     console.log('error', err);
-// });
-
-// data.read('test', 'test', (err, data) => {
-//     console.log(err, data);
-// });
-
-// data.update('test', 'test', { country: 'Bangladesh' }, (err) => {
-//     console.log('error', err);
-// });
-
-// data.delete('test', 'test', (err) => {
-//     console.log('err', err);
-// });
 
 // app object
 const app = {};
